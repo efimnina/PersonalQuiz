@@ -18,8 +18,8 @@ class ResultsViewController: UIViewController {
     // 2. Определить наиболее часто встречающийся тип животного
     // 3. Отобразить результаты на экране
     // 4. Избавится от кнопки back
-
-   
+    
+    
     @IBOutlet var emojiLabel: UILabel!
     @IBOutlet var aboutPetLabel: UILabel!
     var answers: [Answer]!
@@ -27,23 +27,17 @@ class ResultsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.setHidesBackButton(true, animated: false)
-        let resultAnimal = calculat()
-        emojiLabel.text = "Вы - " + String(resultAnimal.rawValue)
-        aboutPetLabel.text = resultAnimal.definition
-        
+        let animalResult = calculatPets()
+        emojiLabel.text = "Вы - " + String(animalResult.rawValue)
+        aboutPetLabel.text = animalResult.definition
     }
 
-    
-func calculat() -> AnimalType {
-    
-    var counts: [AnimalType : Int] = [:]
-    
-    for answer in answers {
-        counts[answer.type] = (counts[answer.type] ?? 0) + 1
+    func calculatPets() -> AnimalType {
+        var counts: [AnimalType : Int] = [:]
+        for answer in answers {
+            counts[answer.type] = (counts[answer.type] ?? 0) + 1
+        }
+        let result = counts.sorted(by: { $0.value > $1.value})
+        return result.first!.key
     }
-    
-    let result = counts.sorted(by: { $0.value > $1.value})
-    return result.first!.key
-}
-    
 }
